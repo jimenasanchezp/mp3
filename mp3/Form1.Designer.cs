@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnlSidebar = new System.Windows.Forms.Panel();
             this.btnImportarCarpeta = new System.Windows.Forms.Button();
             this.lblTituloPlaylists = new System.Windows.Forms.Label();
@@ -78,8 +78,9 @@
             this.pnlSidebar.Controls.Add(this.pnlLogo);
             this.pnlSidebar.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlSidebar.Location = new System.Drawing.Point(0, 0);
+            this.pnlSidebar.Margin = new System.Windows.Forms.Padding(4);
             this.pnlSidebar.Name = "pnlSidebar";
-            this.pnlSidebar.Size = new System.Drawing.Size(220, 561);
+            this.pnlSidebar.Size = new System.Drawing.Size(293, 690);
             this.pnlSidebar.TabIndex = 0;
             // 
             // btnImportarCarpeta
@@ -90,9 +91,10 @@
             this.btnImportarCarpeta.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnImportarCarpeta.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnImportarCarpeta.ForeColor = System.Drawing.Color.LightGray;
-            this.btnImportarCarpeta.Location = new System.Drawing.Point(0, 516);
+            this.btnImportarCarpeta.Location = new System.Drawing.Point(0, 635);
+            this.btnImportarCarpeta.Margin = new System.Windows.Forms.Padding(4);
             this.btnImportarCarpeta.Name = "btnImportarCarpeta";
-            this.btnImportarCarpeta.Size = new System.Drawing.Size(220, 45);
+            this.btnImportarCarpeta.Size = new System.Drawing.Size(293, 55);
             this.btnImportarCarpeta.TabIndex = 4;
             this.btnImportarCarpeta.Text = "📁 Importar Carpeta";
             this.btnImportarCarpeta.UseVisualStyleBackColor = false;
@@ -102,9 +104,10 @@
             this.lblTituloPlaylists.AutoSize = true;
             this.lblTituloPlaylists.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTituloPlaylists.ForeColor = System.Drawing.Color.Gray;
-            this.lblTituloPlaylists.Location = new System.Drawing.Point(12, 120);
+            this.lblTituloPlaylists.Location = new System.Drawing.Point(16, 148);
+            this.lblTituloPlaylists.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTituloPlaylists.Name = "lblTituloPlaylists";
-            this.lblTituloPlaylists.Size = new System.Drawing.Size(91, 15);
+            this.lblTituloPlaylists.Size = new System.Drawing.Size(110, 20);
             this.lblTituloPlaylists.TabIndex = 3;
             this.lblTituloPlaylists.Text = "TU BIBLIOTECA";
             // 
@@ -115,14 +118,15 @@
             this.lstPlaylists.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.lstPlaylists.ForeColor = System.Drawing.Color.White;
             this.lstPlaylists.FormattingEnabled = true;
-            this.lstPlaylists.ItemHeight = 17;
+            this.lstPlaylists.ItemHeight = 23;
             this.lstPlaylists.Items.AddRange(new object[] {
             "Canciones que me gustan",
             "Música para programar",
             "Rock Clásico"});
-            this.lstPlaylists.Location = new System.Drawing.Point(15, 145);
+            this.lstPlaylists.Location = new System.Drawing.Point(20, 178);
+            this.lstPlaylists.Margin = new System.Windows.Forms.Padding(4);
             this.lstPlaylists.Name = "lstPlaylists";
-            this.lstPlaylists.Size = new System.Drawing.Size(188, 306);
+            this.lstPlaylists.Size = new System.Drawing.Size(251, 368);
             this.lstPlaylists.TabIndex = 2;
             // 
             // btnNuevaLista
@@ -132,9 +136,10 @@
             this.btnNuevaLista.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnNuevaLista.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNuevaLista.ForeColor = System.Drawing.Color.Black;
-            this.btnNuevaLista.Location = new System.Drawing.Point(15, 65);
+            this.btnNuevaLista.Location = new System.Drawing.Point(20, 80);
+            this.btnNuevaLista.Margin = new System.Windows.Forms.Padding(4);
             this.btnNuevaLista.Name = "btnNuevaLista";
-            this.btnNuevaLista.Size = new System.Drawing.Size(188, 40);
+            this.btnNuevaLista.Size = new System.Drawing.Size(251, 49);
             this.btnNuevaLista.TabIndex = 1;
             this.btnNuevaLista.Text = "+ Nueva Lista";
             this.btnNuevaLista.UseVisualStyleBackColor = false;
@@ -144,8 +149,9 @@
             this.pnlLogo.Controls.Add(this.lblLogo);
             this.pnlLogo.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlLogo.Location = new System.Drawing.Point(0, 0);
+            this.pnlLogo.Margin = new System.Windows.Forms.Padding(4);
             this.pnlLogo.Name = "pnlLogo";
-            this.pnlLogo.Size = new System.Drawing.Size(220, 59);
+            this.pnlLogo.Size = new System.Drawing.Size(293, 73);
             this.pnlLogo.TabIndex = 0;
             // 
             // lblLogo
@@ -153,9 +159,10 @@
             this.lblLogo.AutoSize = true;
             this.lblLogo.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLogo.ForeColor = System.Drawing.Color.White;
-            this.lblLogo.Location = new System.Drawing.Point(12, 18);
+            this.lblLogo.Location = new System.Drawing.Point(16, 22);
+            this.lblLogo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblLogo.Name = "lblLogo";
-            this.lblLogo.Size = new System.Drawing.Size(117, 25);
+            this.lblLogo.Size = new System.Drawing.Size(162, 32);
             this.lblLogo.TabIndex = 0;
             this.lblLogo.Text = "🎵 MyPlayer";
             // 
@@ -171,9 +178,10 @@
             this.pnlReproduccion.Controls.Add(this.btnPlay);
             this.pnlReproduccion.Controls.Add(this.btnAnterior);
             this.pnlReproduccion.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlReproduccion.Location = new System.Drawing.Point(220, 471);
+            this.pnlReproduccion.Location = new System.Drawing.Point(293, 579);
+            this.pnlReproduccion.Margin = new System.Windows.Forms.Padding(4);
             this.pnlReproduccion.Name = "pnlReproduccion";
-            this.pnlReproduccion.Size = new System.Drawing.Size(764, 90);
+            this.pnlReproduccion.Size = new System.Drawing.Size(1019, 111);
             this.pnlReproduccion.TabIndex = 1;
             // 
             // lblVolumen
@@ -181,19 +189,21 @@
             this.lblVolumen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblVolumen.AutoSize = true;
             this.lblVolumen.ForeColor = System.Drawing.Color.Gray;
-            this.lblVolumen.Location = new System.Drawing.Point(600, 39);
+            this.lblVolumen.Location = new System.Drawing.Point(800, 48);
+            this.lblVolumen.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblVolumen.Name = "lblVolumen";
-            this.lblVolumen.Size = new System.Drawing.Size(22, 13);
+            this.lblVolumen.Size = new System.Drawing.Size(27, 16);
             this.lblVolumen.TabIndex = 7;
             this.lblVolumen.Text = "Vol";
             // 
             // trackBarVolumen
             // 
             this.trackBarVolumen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.trackBarVolumen.Location = new System.Drawing.Point(628, 34);
+            this.trackBarVolumen.Location = new System.Drawing.Point(837, 42);
+            this.trackBarVolumen.Margin = new System.Windows.Forms.Padding(4);
             this.trackBarVolumen.Maximum = 100;
             this.trackBarVolumen.Name = "trackBarVolumen";
-            this.trackBarVolumen.Size = new System.Drawing.Size(104, 45);
+            this.trackBarVolumen.Size = new System.Drawing.Size(139, 56);
             this.trackBarVolumen.TabIndex = 6;
             this.trackBarVolumen.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBarVolumen.Value = 50;
@@ -204,9 +214,10 @@
             this.lblTiempoTotal.AutoSize = true;
             this.lblTiempoTotal.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTiempoTotal.ForeColor = System.Drawing.Color.Gray;
-            this.lblTiempoTotal.Location = new System.Drawing.Point(690, 11);
+            this.lblTiempoTotal.Location = new System.Drawing.Point(920, 14);
+            this.lblTiempoTotal.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTiempoTotal.Name = "lblTiempoTotal";
-            this.lblTiempoTotal.Size = new System.Drawing.Size(34, 13);
+            this.lblTiempoTotal.Size = new System.Drawing.Size(44, 19);
             this.lblTiempoTotal.TabIndex = 5;
             this.lblTiempoTotal.Text = "00:00";
             // 
@@ -216,21 +227,23 @@
             this.lblTiempoActual.AutoSize = true;
             this.lblTiempoActual.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTiempoActual.ForeColor = System.Drawing.Color.Gray;
-            this.lblTiempoActual.Location = new System.Drawing.Point(6, 11);
+            this.lblTiempoActual.Location = new System.Drawing.Point(8, 14);
+            this.lblTiempoActual.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTiempoActual.Name = "lblTiempoActual";
-            this.lblTiempoActual.Size = new System.Drawing.Size(34, 13);
+            this.lblTiempoActual.Size = new System.Drawing.Size(44, 19);
             this.lblTiempoActual.TabIndex = 4;
             this.lblTiempoActual.Text = "00:00";
             // 
             // trackBarProgreso
             // 
-            this.trackBarProgreso.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.trackBarProgreso.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.trackBarProgreso.AutoSize = false;
-            this.trackBarProgreso.Location = new System.Drawing.Point(46, 6);
+            this.trackBarProgreso.Location = new System.Drawing.Point(61, 7);
+            this.trackBarProgreso.Margin = new System.Windows.Forms.Padding(4);
             this.trackBarProgreso.Maximum = 100;
             this.trackBarProgreso.Name = "trackBarProgreso";
-            this.trackBarProgreso.Size = new System.Drawing.Size(638, 26);
+            this.trackBarProgreso.Size = new System.Drawing.Size(851, 32);
             this.trackBarProgreso.TabIndex = 3;
             this.trackBarProgreso.TickStyle = System.Windows.Forms.TickStyle.None;
             // 
@@ -241,9 +254,10 @@
             this.btnSiguiente.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSiguiente.Font = new System.Drawing.Font("Segoe UI Symbol", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSiguiente.ForeColor = System.Drawing.Color.White;
-            this.btnSiguiente.Location = new System.Drawing.Point(407, 39);
+            this.btnSiguiente.Location = new System.Drawing.Point(543, 48);
+            this.btnSiguiente.Margin = new System.Windows.Forms.Padding(4);
             this.btnSiguiente.Name = "btnSiguiente";
-            this.btnSiguiente.Size = new System.Drawing.Size(40, 40);
+            this.btnSiguiente.Size = new System.Drawing.Size(53, 49);
             this.btnSiguiente.TabIndex = 2;
             this.btnSiguiente.Text = "⏭";
             this.btnSiguiente.UseVisualStyleBackColor = true;
@@ -255,9 +269,10 @@
             this.btnPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPlay.Font = new System.Drawing.Font("Segoe UI Symbol", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPlay.ForeColor = System.Drawing.Color.White;
-            this.btnPlay.Location = new System.Drawing.Point(344, 30);
+            this.btnPlay.Location = new System.Drawing.Point(459, 37);
+            this.btnPlay.Margin = new System.Windows.Forms.Padding(4);
             this.btnPlay.Name = "btnPlay";
-            this.btnPlay.Size = new System.Drawing.Size(57, 51);
+            this.btnPlay.Size = new System.Drawing.Size(76, 63);
             this.btnPlay.TabIndex = 1;
             this.btnPlay.Text = "▶";
             this.btnPlay.UseVisualStyleBackColor = true;
@@ -269,9 +284,10 @@
             this.btnAnterior.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAnterior.Font = new System.Drawing.Font("Segoe UI Symbol", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAnterior.ForeColor = System.Drawing.Color.White;
-            this.btnAnterior.Location = new System.Drawing.Point(298, 39);
+            this.btnAnterior.Location = new System.Drawing.Point(397, 48);
+            this.btnAnterior.Margin = new System.Windows.Forms.Padding(4);
             this.btnAnterior.Name = "btnAnterior";
-            this.btnAnterior.Size = new System.Drawing.Size(40, 40);
+            this.btnAnterior.Size = new System.Drawing.Size(53, 49);
             this.btnAnterior.TabIndex = 0;
             this.btnAnterior.Text = "⏮";
             this.btnAnterior.UseVisualStyleBackColor = true;
@@ -282,9 +298,10 @@
             this.pnlPrincipal.Controls.Add(this.dgvCanciones);
             this.pnlPrincipal.Controls.Add(this.panelInfoCancion);
             this.pnlPrincipal.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlPrincipal.Location = new System.Drawing.Point(220, 0);
+            this.pnlPrincipal.Location = new System.Drawing.Point(293, 0);
+            this.pnlPrincipal.Margin = new System.Windows.Forms.Padding(4);
             this.pnlPrincipal.Name = "pnlPrincipal";
-            this.pnlPrincipal.Size = new System.Drawing.Size(764, 471);
+            this.pnlPrincipal.Size = new System.Drawing.Size(1019, 579);
             this.pnlPrincipal.TabIndex = 2;
             // 
             // dgvCanciones
@@ -297,58 +314,62 @@
             this.dgvCanciones.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvCanciones.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.dgvCanciones.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Silver;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvCanciones.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Silver;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvCanciones.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.dgvCanciones.ColumnHeadersHeight = 30;
             this.dgvCanciones.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colTitulo,
             this.colArtista,
             this.colDuracion});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvCanciones.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvCanciones.DefaultCellStyle = dataGridViewCellStyle8;
             this.dgvCanciones.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvCanciones.EnableHeadersVisualStyles = false;
             this.dgvCanciones.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            this.dgvCanciones.Location = new System.Drawing.Point(0, 179);
+            this.dgvCanciones.Location = new System.Drawing.Point(0, 293);
+            this.dgvCanciones.Margin = new System.Windows.Forms.Padding(4);
             this.dgvCanciones.MultiSelect = false;
             this.dgvCanciones.Name = "dgvCanciones";
             this.dgvCanciones.ReadOnly = true;
             this.dgvCanciones.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvCanciones.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvCanciones.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.dgvCanciones.RowHeadersVisible = false;
+            this.dgvCanciones.RowHeadersWidth = 51;
             this.dgvCanciones.RowTemplate.Height = 35;
             this.dgvCanciones.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCanciones.Size = new System.Drawing.Size(764, 292);
+            this.dgvCanciones.Size = new System.Drawing.Size(1019, 286);
             this.dgvCanciones.TabIndex = 1;
             // 
             // colTitulo
             // 
             this.colTitulo.HeaderText = "TÍTULO";
+            this.colTitulo.MinimumWidth = 6;
             this.colTitulo.Name = "colTitulo";
             this.colTitulo.ReadOnly = true;
             // 
             // colArtista
             // 
             this.colArtista.HeaderText = "ARTISTA";
+            this.colArtista.MinimumWidth = 6;
             this.colArtista.Name = "colArtista";
             this.colArtista.ReadOnly = true;
             // 
@@ -356,6 +377,7 @@
             // 
             this.colDuracion.FillWeight = 30F;
             this.colDuracion.HeaderText = "🕐";
+            this.colDuracion.MinimumWidth = 6;
             this.colDuracion.Name = "colDuracion";
             this.colDuracion.ReadOnly = true;
             // 
@@ -368,62 +390,68 @@
             this.panelInfoCancion.Controls.Add(this.picPortada);
             this.panelInfoCancion.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelInfoCancion.Location = new System.Drawing.Point(0, 0);
+            this.panelInfoCancion.Margin = new System.Windows.Forms.Padding(4);
             this.panelInfoCancion.Name = "panelInfoCancion";
-            this.panelInfoCancion.Size = new System.Drawing.Size(764, 179);
+            this.panelInfoCancion.Size = new System.Drawing.Size(1019, 293);
             this.panelInfoCancion.TabIndex = 0;
             // 
             // lblAlbum
             // 
             this.lblAlbum.AutoSize = true;
-            this.lblAlbum.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.lblAlbum.Font = new System.Drawing.Font("Segoe UI", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAlbum.ForeColor = System.Drawing.Color.Gray;
-            this.lblAlbum.Location = new System.Drawing.Point(200, 115);
+            this.lblAlbum.Location = new System.Drawing.Point(327, 196);
+            this.lblAlbum.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblAlbum.Name = "lblAlbum";
-            this.lblAlbum.Size = new System.Drawing.Size(117, 20);
+            this.lblAlbum.Size = new System.Drawing.Size(172, 31);
             this.lblAlbum.TabIndex = 3;
             this.lblAlbum.Text = "Nombre Álbum";
             // 
             // lblArtista
             // 
             this.lblArtista.AutoSize = true;
-            this.lblArtista.Font = new System.Drawing.Font("Segoe UI", 14F);
+            this.lblArtista.Font = new System.Drawing.Font("Segoe UI", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblArtista.ForeColor = System.Drawing.Color.LightGray;
-            this.lblArtista.Location = new System.Drawing.Point(200, 85);
+            this.lblArtista.Location = new System.Drawing.Point(327, 153);
+            this.lblArtista.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblArtista.Name = "lblArtista";
-            this.lblArtista.Size = new System.Drawing.Size(136, 25);
+            this.lblArtista.Size = new System.Drawing.Size(199, 38);
             this.lblArtista.TabIndex = 2;
             this.lblArtista.Text = "Artista Famoso";
             // 
             // lblTituloCancion
             // 
             this.lblTituloCancion.AutoSize = true;
-            this.lblTituloCancion.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTituloCancion.Font = new System.Drawing.Font("Segoe UI", 25.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTituloCancion.ForeColor = System.Drawing.Color.White;
-            this.lblTituloCancion.Location = new System.Drawing.Point(196, 35);
+            this.lblTituloCancion.Location = new System.Drawing.Point(321, 88);
+            this.lblTituloCancion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTituloCancion.Name = "lblTituloCancion";
-            this.lblTituloCancion.Size = new System.Drawing.Size(325, 45);
+            this.lblTituloCancion.Size = new System.Drawing.Size(438, 60);
             this.lblTituloCancion.TabIndex = 1;
             this.lblTituloCancion.Text = "Título de la Canción";
             // 
             // picPortada
             // 
             this.picPortada.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.picPortada.Location = new System.Drawing.Point(25, 25);
+            this.picPortada.Location = new System.Drawing.Point(4, 13);
+            this.picPortada.Margin = new System.Windows.Forms.Padding(4);
             this.picPortada.Name = "picPortada";
-            this.picPortada.Size = new System.Drawing.Size(150, 150);
+            this.picPortada.Size = new System.Drawing.Size(290, 266);
             this.picPortada.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picPortada.TabIndex = 0;
             this.picPortada.TabStop = false;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.ClientSize = new System.Drawing.Size(984, 561);
+            this.ClientSize = new System.Drawing.Size(1312, 690);
             this.Controls.Add(this.pnlPrincipal);
             this.Controls.Add(this.pnlReproduccion);
             this.Controls.Add(this.pnlSidebar);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Reproductor MP3 Moderno";

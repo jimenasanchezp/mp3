@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using WMPLib; // Referencia COM: Windows Media Player
+using NAudio.Wave; // Paquete NuGet: NAudio
 using TagLib; // Paquete NuGet: TagLibSharp
 
 namespace mp3
@@ -14,8 +14,9 @@ namespace mp3
         // 1. PROPIEDADES Y VARIABLES GLOBALES
         // ==========================================
 
-        // El motor de reproducción (Windows Media Player)
-        private WindowsMediaPlayer player;
+        // Reproductor de audio 
+        private IWavePlayer outputDevice;
+        private AudioFileReader audioFile;
 
         // Lista para guardar los datos de las canciones en memoria
         private List<Cancion> listaActualCanciones = new List<Cancion>();
@@ -38,9 +39,8 @@ namespace mp3
         // ==========================================
         private void ConfigurarReproductor()
         {
-            player = new WindowsMediaPlayer();
-            player.settings.autoStart = false; // Que no empiece solo
-            player.settings.volume = 50;
+            //inicializamos el reproductor de audio (NAudio)
+            outputDevice = new WaveOutEvent();
 
             // Timer: se ejecutará cada segundo para mover la barra
             timerReproduccion = new Timer();
@@ -64,7 +64,10 @@ namespace mp3
             trackBarProgreso.Scroll += TrackBarProgreso_Scroll;
 
             // Evento para detectar cuando una canción termina
-            player.PlayStateChange += Player_PlayStateChange;
+            if (outputDevice.PlaybackState == PlaybackState.Playing)
+            {
+                outputDevice.Pause();
+            }
         }
 
         // ==========================================
@@ -141,28 +144,25 @@ namespace mp3
             indiceActual = indice;
             Cancion cancion = listaActualCanciones[indice];
 
-            // 1. Cargar audio en WMP
-            player.URL = cancion.RutaArchivo;
-            player.controls.play();
+            // Detener y liberar recursos anteriores si existen
+            outputDevice?.Stop();
+            audioFile?.Dispose();
 
-            // 2. Actualizar Botón Play/Pause
-            btnPlay.Text = "⏸"; // Cambiar icono a Pausa
+            // Cargar nuevo archivo
+            audioFile = new AudioFileReader(cancion.RutaArchivo);
+            outputDevice.Init(audioFile);
+            outputDevice.Play();
+
+            // Actualizar Interfaz
+            btnPlay.Text = "⏸";
             timerReproduccion.Start();
-
-            // 3. Actualizar Datos en Pantalla
             lblTituloCancion.Text = cancion.Titulo;
             lblArtista.Text = cancion.Artista;
             lblAlbum.Text = cancion.Album;
             lblTiempoTotal.Text = cancion.Duracion.ToString(@"mm\:ss");
 
-            // 4. Extraer y mostrar Portada (Imagen)
             CargarPortada(cancion.RutaArchivo);
-
-            // 5. Seleccionar la fila en la tabla visualmente
-            dgvCanciones.ClearSelection();
-            dgvCanciones.Rows[indice].Selected = true;
         }
-
         private void CargarPortada(string rutaArchivo)
         {
             try
@@ -195,32 +195,21 @@ namespace mp3
 
         private void BtnPlay_Click(object sender, EventArgs e)
         {
-            // Si no hay canción sonando y hay lista, reproducir la primera o la seleccionada
-            if (player.playState == WMPPlayState.wmppsUndefined || player.URL == "")
-            {
-                if (listaActualCanciones.Count > 0)
-                {
-                    int index = dgvCanciones.SelectedRows.Count > 0 ? dgvCanciones.SelectedRows[0].Index : 0;
-                    ReproducirCancion(index);
-                }
-                return;
-            }
+            if (outputDevice == null || audioFile == null) return;
 
-            // Alternar Pausa / Play
-            if (player.playState == WMPPlayState.wmppsPlaying)
+            if (outputDevice.PlaybackState == PlaybackState.Playing)
             {
-                player.controls.pause();
+                outputDevice.Pause();
                 timerReproduccion.Stop();
                 btnPlay.Text = "▶";
             }
             else
             {
-                player.controls.play();
+                outputDevice.Play();
                 timerReproduccion.Start();
                 btnPlay.Text = "⏸";
             }
         }
-
         private void BtnSiguiente_Click(object sender, EventArgs e)
         {
             if (indiceActual < listaActualCanciones.Count - 1)
@@ -251,42 +240,38 @@ namespace mp3
 
         private void TimerReproduccion_Tick(object sender, EventArgs e)
         {
-            if (player.playState == WMPPlayState.wmppsPlaying)
+            if (audioFile != null && outputDevice.PlaybackState == PlaybackState.Playing)
             {
-                // Actualizar barra de progreso
-                trackBarProgreso.Maximum = (int)player.currentMedia.duration;
-                trackBarProgreso.Value = (int)player.controls.currentPosition;
-
-                // Actualizar etiqueta de tiempo actual
-                lblTiempoActual.Text = player.controls.currentPositionString;
+                trackBarProgreso.Maximum = (int)audioFile.TotalTime.TotalSeconds;
+                trackBarProgreso.Value = (int)audioFile.CurrentTime.TotalSeconds;
+                lblTiempoActual.Text = audioFile.CurrentTime.ToString(@"mm\:ss");
             }
         }
 
-        private void TrackBarVolumen_Scroll(object sender, EventArgs e)
-        {
-            player.settings.volume = trackBarVolumen.Value;
-            lblVolumen.Text = trackBarVolumen.Value + "%";
-        }
-
+ private void TrackBarVolumen_Scroll(object sender, EventArgs e)
+{
+    if (audioFile != null)
+    {
+        // NAudio usa valores de 0.0f a 1.0f
+        audioFile.Volume = trackBarVolumen.Value / 100f;
+        lblVolumen.Text = trackBarVolumen.Value + "%";
+    }
+}
         private void TrackBarProgreso_Scroll(object sender, EventArgs e)
         {
-            // Permitir al usuario adelantar/atrasar la canción
-            player.controls.currentPosition = trackBarProgreso.Value;
+            if (audioFile != null)
+            {
+                audioFile.CurrentTime = TimeSpan.FromSeconds(trackBarProgreso.Value);
+            }
         }
-
         // Detectar cuando termina una canción para pasar a la siguiente automáticamente
         private void Player_PlayStateChange(int NewState)
         {
-            if (NewState == (int)WMPPlayState.wmppsMediaEnded)
-            {
-                // Pequeño hack para evitar que salte dos veces
-                timerReproduccion.Stop();
-                BeginInvoke(new Action(() =>
-                {
-                    if (indiceActual < listaActualCanciones.Count - 1)
-                        ReproducirCancion(indiceActual + 1);
-                }));
-            }
+            outputDevice.PlaybackStopped += (s, a) => {
+                // Lógica para saltar a la siguiente canción cuando termine la actual
+                if (indiceActual < listaActualCanciones.Count - 1)
+                    ReproducirCancion(indiceActual + 1);
+            };
         }
     }
 }
