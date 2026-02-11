@@ -15,7 +15,9 @@ namespace mp3
         // ==========================================
 
         // Reproductor de audio 
+        // IWavePlayer es una interfaz de NAudio que representa un dispositivo de reproducción de audio.
         private IWavePlayer outputDevice;
+        // AudioFileReader es una clase de NAudio que facilita la lectura de archivos de audio. 
         private AudioFileReader audioFile;
 
         // Lista para guardar los datos de las canciones en memoria
@@ -27,11 +29,19 @@ namespace mp3
         // Timer para actualizar la barra de progreso
         private Timer timerReproduccion;
 
+        private string rutaMisListas = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.MyMusic));
+
+        // menu click derecho
+        private ContextMenuStrip menuCanciones;
+
         public Form1()
         {
             InitializeComponent();
             ConfigurarReproductor();
             ConfigurarEventos();
+            CargarListasEnSidebar();// Cargar las listas guardadas al iniciar la aplicación
+            InicializarMenuContextual(); // Configurar el menú contextual para añadir canciones a las listas desde la interfaz de reproducción
         }
 
         // ==========================================
@@ -39,7 +49,7 @@ namespace mp3
         // ==========================================
         private void ConfigurarReproductor()
         {
-            //inicializamos el reproductor de audio (NAudio)
+            //inicializamos el reproductor de audio (NAudio) 
             outputDevice = new WaveOutEvent();
 
             // Timer: se ejecutará cada segundo para mover la barra
@@ -50,24 +60,34 @@ namespace mp3
 
         private void ConfigurarEventos()
         {
-            // Asignamos los clicks a los botones que creamos en el Designer
+            // Asignamos los clicks a los botones
             btnImportarCarpeta.Click += BtnImportarCarpeta_Click;
             btnPlay.Click += BtnPlay_Click;
             btnSiguiente.Click += BtnSiguiente_Click;
             btnAnterior.Click += BtnAnterior_Click;
 
-            // Evento al hacer doble click en una canción de la lista
+            // Guardar lista (Botón Nueva Lista)
+            btnNuevaLista.Click += BtnGuardarLista_Click;
+
+            // Evento al hacer doble click en una canción de la grilla
             dgvCanciones.DoubleClick += DgvCanciones_DoubleClick;
 
-            // Eventos de las barras (Volumen y Progreso)
+            // Evento al hacer doble click en una Playlist (Barra lateral)
+            lstPlaylists.DoubleClick += LstPlaylists_DoubleClick;
+
+            // Eventos de las barras
             trackBarVolumen.Scroll += TrackBarVolumen_Scroll;
             trackBarProgreso.Scroll += TrackBarProgreso_Scroll;
 
-            // Evento para detectar cuando una canción termina
-            if (outputDevice.PlaybackState == PlaybackState.Playing)
+            // CORRECCIÓN IMPORTANTE: Así se programa el salto automático de canción
+            outputDevice.PlaybackStopped += (s, a) =>
             {
-                outputDevice.Pause();
-            }
+                // Si la canción terminó sola (y no fue stop manual), pasar a la siguiente
+                if (indiceActual < listaActualCanciones.Count - 1)
+                {
+                    ReproducirCancion(indiceActual + 1);
+                }
+            };
         }
 
         // ==========================================
@@ -97,7 +117,7 @@ namespace mp3
         }
 
         private void BtnImportarCarpeta_Click(object sender, EventArgs e)
-        {
+        { 
             using (var fbd = new FolderBrowserDialog())
             {
                 if (fbd.ShowDialog() == DialogResult.OK)
@@ -248,15 +268,15 @@ namespace mp3
             }
         }
 
- private void TrackBarVolumen_Scroll(object sender, EventArgs e)
-{
-    if (audioFile != null)
-    {
-        // NAudio usa valores de 0.0f a 1.0f
-        audioFile.Volume = trackBarVolumen.Value / 100f;
-        lblVolumen.Text = trackBarVolumen.Value + "%";
-    }
-}
+         private void TrackBarVolumen_Scroll(object sender, EventArgs e)
+        { 
+            if (audioFile != null)
+            {
+                // NAudio usa valores de 0.0f a 1.0f
+                audioFile.Volume = trackBarVolumen.Value / 100f;
+                lblVolumen.Text = trackBarVolumen.Value + "%";
+            }
+        }
         private void TrackBarProgreso_Scroll(object sender, EventArgs e)
         {
             if (audioFile != null)
@@ -272,6 +292,163 @@ namespace mp3
                 if (indiceActual < listaActualCanciones.Count - 1)
                     ReproducirCancion(indiceActual + 1);
             };
+        }
+
+        // Guardar lista nueva
+        private void BtnGuardarLista_Click(object sender, EventArgs e)
+        {
+            // Usamos el SaveFileDialog solo para que escribas el NOMBRE de la carpeta
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.InitialDirectory = rutaMisListas;
+                sfd.FileName = "Nueva Lista";
+                sfd.Title = "Crear nueva carpeta de playlist";
+                sfd.Filter = "Carpeta|*.";
+
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        string nombreCarpeta = Path.GetFileNameWithoutExtension(sfd.FileName);
+                        string rutaNuevaCarpeta = Path.Combine(rutaMisListas, nombreCarpeta);
+
+                        // 1. Solo creamos la carpeta vacía
+                        if (!Directory.Exists(rutaNuevaCarpeta))
+                        {
+                            Directory.CreateDirectory(rutaNuevaCarpeta);
+                            MessageBox.Show($"Lista '{nombreCarpeta}'.");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Esa lista ya existe.");
+                        }
+
+                        // 2. Actualizamos la barra lateral para que aparezca
+                        CargarListasEnSidebar();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error ." + ex.Message);
+                    }
+                }
+            }
+        }
+        private void CargarListasEnSidebar()
+        {
+            if (!Directory.Exists(rutaMisListas))
+            {
+                Directory.CreateDirectory(rutaMisListas);
+            }
+
+            // 2. Limpiar la lista visual 
+            lstPlaylists.Items.Clear();
+
+            string[] carpetas = Directory.GetDirectories(rutaMisListas);
+
+            // 4. Agregarlos a la lista (solo el nombre, sin la ruta completa)
+            foreach (string carpeta in carpetas)
+            {
+                string nombreLista = Path.GetFileNameWithoutExtension(carpeta);
+                lstPlaylists.Items.Add(nombreLista);
+            }
+        }
+
+        private void LstPlaylists_DoubleClick(object sender, EventArgs e)
+        {
+            if (lstPlaylists.SelectedItem == null) return;
+
+            // 1. Construir la ruta de la carpeta seleccionada
+            string nombreCarpeta = lstPlaylists.SelectedItem.ToString();
+            string rutaCompleta = Path.Combine(rutaMisListas, nombreCarpeta);
+
+            if (Directory.Exists(rutaCompleta))
+            {
+                
+                CargarCancionesDeCarpeta(rutaCompleta);
+            }
+        }
+
+        private void AgregarCancionALista(string nombreLista, Cancion cancion)
+        {
+            // Rutas
+            string rutaCarpetaDestino = Path.Combine(rutaMisListas, nombreLista);
+            string nombreArchivo = Path.GetFileName(cancion.RutaArchivo);
+            string rutaDestinoFinal = Path.Combine(rutaCarpetaDestino, nombreArchivo);
+
+            try
+            {
+                // 1. Verificamos que sea una carpeta real
+                if (Directory.Exists(rutaCarpetaDestino))
+                {
+                    // 2. COPIAR EL ARCHIVO MP3 (Usando System.IO explícitamente)
+                    System.IO.File.Copy(cancion.RutaArchivo, rutaDestinoFinal, true);
+
+                    MessageBox.Show($"Canción copiada a la carpeta: {nombreLista}");
+                }
+                else
+                {
+                    MessageBox.Show("Error: No se encuentra la carpeta de destino.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al copiar: " + ex.Message);
+            }
+        }
+
+        private void InicializarMenuContextual()
+        {
+            menuCanciones = new ContextMenuStrip();
+
+            // Este evento se dispara justo antes de que el menú se abra visualmente
+            menuCanciones.Opening += (sender, e) =>
+            {
+                // 1. Limpiamos opciones viejas
+                menuCanciones.Items.Clear();
+
+                // 2. Verificamos que haya una canción seleccionada
+                if (dgvCanciones.SelectedRows.Count == 0)
+                {
+                    e.Cancel = true; // No abrir si no hay selección
+                    return;
+                }
+
+                // 3. Crear el item principal "Añadir a..."
+                ToolStripMenuItem itemAnadir = new ToolStripMenuItem("Añadir a playlist");
+
+                // 4. Recorremos las listas que tienes en la barra lateral
+                foreach (var itemLista in lstPlaylists.Items)
+                {
+                    string nombreLista = itemLista.ToString();
+
+                    // Creamos un sub-item por cada lista
+                    ToolStripMenuItem subItem = new ToolStripMenuItem(nombreLista);
+
+                    // Qué pasa cuando le das clic a esa lista específica
+                    subItem.Click += (s, args) =>
+                    {
+                        // Obtenemos la canción seleccionada actualmente
+                        int indice = dgvCanciones.SelectedRows[0].Index;
+                        Cancion cancionSeleccionada = listaActualCanciones[indice];
+
+                        // Llamamos al método que creamos en el Paso 2
+                        AgregarCancionALista(nombreLista, cancionSeleccionada);
+                    };
+
+                    itemAnadir.DropDownItems.Add(subItem);
+                }
+
+                // Si no tienes listas creadas, mostramos un aviso o deshabilitamos
+                if (lstPlaylists.Items.Count == 0)
+                {
+                    itemAnadir.DropDownItems.Add(new ToolStripMenuItem("(No hay listas creadas)") { Enabled = false });
+                }
+
+                menuCanciones.Items.Add(itemAnadir);
+            };
+
+            // Asignar este menú al DataGridView
+            dgvCanciones.ContextMenuStrip = menuCanciones;
         }
     }
 }
