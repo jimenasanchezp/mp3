@@ -14,10 +14,7 @@ namespace mp3
         // 1. PROPIEDADES Y VARIABLES GLOBALES
         // ==========================================
 
-        // Reproductor de audio 
-        // IWavePlayer es una interfaz de NAudio que representa un dispositivo de reproducción de audio.
-        private IWavePlayer outputDevice;
-        // AudioFileReader es una clase de NAudio que facilita la lectura de archivos de audio. 
+        private IWavePlayer outputDevice; 
         private AudioFileReader audioFile;
 
         // Lista para guardar los datos de las canciones en memoria
@@ -28,6 +25,9 @@ namespace mp3
 
         // Timer para actualizar la barra de progreso
         private Timer timerReproduccion;
+
+        // Variable para evitar conflictos entre el cambio manual y automático
+        private bool cambioManual = false;
 
         private string rutaMisListas = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.MyMusic));
@@ -48,9 +48,7 @@ namespace mp3
         // 2. CONFIGURACIÓN INICIAL
         // ==========================================
         private void ConfigurarReproductor()
-        {
-            //inicializamos el reproductor de audio (NAudio) 
-            outputDevice = new WaveOutEvent();
+        {            
 
             // Timer: se ejecutará cada segundo para mover la barra
             timerReproduccion = new Timer();
@@ -79,15 +77,6 @@ namespace mp3
             trackBarVolumen.Scroll += TrackBarVolumen_Scroll;
             trackBarProgreso.Scroll += TrackBarProgreso_Scroll;
 
-            // CORRECCIÓN IMPORTANTE: Así se programa el salto automático de canción
-            outputDevice.PlaybackStopped += (s, a) =>
-            {
-                // Si la canción terminó sola (y no fue stop manual), pasar a la siguiente
-                if (indiceActual < listaActualCanciones.Count - 1)
-                {
-                    ReproducirCancion(indiceActual + 1);
-                }
-            };
         }
 
         // ==========================================
@@ -133,6 +122,10 @@ namespace mp3
             listaActualCanciones.Clear();
             dgvCanciones.Rows.Clear();
 
+            // --- AGREGA ESTA LÍNEA ---
+            indiceActual = -1; // Reiniciamos el índice porque es una lista nueva
+                               // -------------------------
+
             string[] archivos = Directory.GetFiles(rutaCarpeta, "*.mp3", SearchOption.AllDirectories);
 
             foreach (string archivo in archivos)
@@ -161,27 +154,71 @@ namespace mp3
         {
             if (indice < 0 || indice >= listaActualCanciones.Count) return;
 
+            // 1. Pausar Timer para evitar errores mientras cargamos
+            timerReproduccion.Stop();
+            cambioManual = true;
+
+            // 2. LIMPIEZA TOTAL: Eliminamos el reproductor viejo para evitar conflictos
+            if (outputDevice != null)
+            {
+                outputDevice.Stop();
+                outputDevice.Dispose();
+                outputDevice = null;
+            }
+            if (audioFile != null)
+            {
+                audioFile.Dispose();
+                audioFile = null;
+            }
+
+            // 3. Preparar nueva canción
             indiceActual = indice;
             Cancion cancion = listaActualCanciones[indice];
 
-            // Detener y liberar recursos anteriores si existen
-            outputDevice?.Stop();
-            audioFile?.Dispose();
+            try
+            {
+                // Creamos una NUEVA instancia del reproductor (Esto evita el 99% de los errores)
+                outputDevice = new WaveOutEvent();
+                audioFile = new AudioFileReader(cancion.RutaArchivo);
 
-            // Cargar nuevo archivo
-            audioFile = new AudioFileReader(cancion.RutaArchivo);
-            outputDevice.Init(audioFile);
-            outputDevice.Play();
+                // 4. Configurar el evento automático (Lista Circular)
+                outputDevice.PlaybackStopped += (s, a) =>
+                {
+                    // Si el cambio fue manual, no hacemos nada
+                    if (cambioManual) return;
 
-            // Actualizar Interfaz
-            btnPlay.Text = "⏸";
-            timerReproduccion.Start();
-            lblTituloCancion.Text = cancion.Titulo;
-            lblArtista.Text = cancion.Artista;
-            lblAlbum.Text = cancion.Album;
-            lblTiempoTotal.Text = cancion.Duracion.ToString(@"mm\:ss");
+                   
+                };
 
-            CargarPortada(cancion.RutaArchivo);
+                audioFile = new AudioFileReader(cancion.RutaArchivo);
+                // Iniciar reproducción
+                outputDevice.Init(audioFile);
+                outputDevice.Play();
+
+                // Actualizar UI
+                btnPlay.Text = "⏸";
+                timerReproduccion.Start();
+                lblTituloCancion.Text = cancion.Titulo;
+                lblArtista.Text = cancion.Artista;
+                lblAlbum.Text = cancion.Album;
+                lblTiempoTotal.Text = cancion.Duracion.ToString(@"mm\:ss");
+
+                // Ya terminamos el cambio, liberamos el semáforo y timer
+                cambioManual = false;
+                timerReproduccion.Start();
+
+                CargarPortada(cancion.RutaArchivo);
+
+                // Seleccionar en tabla
+                dgvCanciones.ClearSelection();
+                if (dgvCanciones.Rows.Count > indice)
+                    dgvCanciones.Rows[indice].Selected = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al reproducir: " + ex.Message);
+                cambioManual = false;
+            }
         }
         private void CargarPortada(string rutaArchivo)
         {
@@ -215,35 +252,49 @@ namespace mp3
 
         private void BtnPlay_Click(object sender, EventArgs e)
         {
-            if (outputDevice == null || audioFile == null) return;
-
-            if (outputDevice.PlaybackState == PlaybackState.Playing)
+            // Si ya hay música cargada (Pausar/Reanudar)
+            if (outputDevice != null && audioFile != null)
             {
-                outputDevice.Pause();
-                timerReproduccion.Stop();
-                btnPlay.Text = "▶";
+                if (outputDevice.PlaybackState == PlaybackState.Playing)
+                {
+                    outputDevice.Pause();
+                    timerReproduccion.Stop();
+                    btnPlay.Text = "▶";
+                }
+                else
+                {
+                    outputDevice.Play();
+                    timerReproduccion.Start();
+                    btnPlay.Text = "⏸";
+                }
             }
-            else
+            //Si no hay música sonando pero hay canciones en la lista
+            else if (listaActualCanciones.Count > 0)
             {
-                outputDevice.Play();
-                timerReproduccion.Start();
-                btnPlay.Text = "⏸";
+                // Empezar a reproducir la primera canción (índice 0)
+                ReproducirCancion(0);
             }
         }
         private void BtnSiguiente_Click(object sender, EventArgs e)
         {
-            if (indiceActual < listaActualCanciones.Count - 1)
-            {
-                ReproducirCancion(indiceActual + 1);
-            }
+            if (listaActualCanciones.Count == 0) return;
+
+            int siguiente = indiceActual + 1;
+            // Si llegamos al final, volvemos al principio (0)
+            if (siguiente >= listaActualCanciones.Count) siguiente = 0;
+
+            ReproducirCancion(siguiente);
         }
 
         private void BtnAnterior_Click(object sender, EventArgs e)
         {
-            if (indiceActual > 0)
-            {
-                ReproducirCancion(indiceActual - 1);
-            }
+            if (listaActualCanciones.Count == 0) return;
+
+            int anterior = indiceActual - 1;
+            // Si estamos en el principio, vamos al final (Count - 1)
+            if (anterior < 0) anterior = listaActualCanciones.Count - 1;
+
+            ReproducirCancion(anterior);
         }
 
         private void DgvCanciones_DoubleClick(object sender, EventArgs e)
